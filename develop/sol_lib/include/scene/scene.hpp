@@ -2,7 +2,6 @@
 #include <string>
 #include <unordered_map>
 #include <memory>
-#include "scene_data/scene_data.hpp"
 #include "object/game_object.hpp"
 
 class SceneManager;
@@ -14,7 +13,7 @@ public:
     Scene() = delete;
 
     /// @brief 各パラメータを指定してインスタンスを初期化
-    Scene(const SceneTag& tag, SceneManager& manager) noexcept
+    Scene(const std::string& tag, SceneManager& manager) noexcept
         : manager_(manager)
         , tag_(tag)
         , time_(0.0f)
@@ -57,19 +56,19 @@ public:
     /// @brief すべてのシーンに適応するオブジェクトを取得
     std::unordered_map<std::string, std::shared_ptr<GameObject>> GetDontDestroyObjects() noexcept;
 
-    const SceneTag& GetTag() const noexcept { return tag_;  }
+    const std::string& GetTag() const noexcept { return tag_;  }
 
 protected:
     SceneManager& manager_;
     
     /// @brief シーンを切り替え
-    void ChangeScene(const SceneTag& tag) noexcept;
+    void ChangeScene(const std::string& tag) noexcept;
 
     /// @brief シーンのタイムを取得
     const float& GetSceneTime() const noexcept { return time_; }
 
 private:
-    SceneTag tag_;
+    std::string tag_;
     std::unordered_map<std::string, std::shared_ptr<GameObject>> objects_;
     std::unordered_map<std::string, std::shared_ptr<GameObject>> dont_destroy_objects_;
 

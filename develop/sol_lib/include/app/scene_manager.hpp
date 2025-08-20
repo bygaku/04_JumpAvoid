@@ -1,8 +1,5 @@
 #pragma once
-#include "app/application.hpp"
-#include "scene_data/scene_data.hpp"
-
-class Scene;
+#include "scene/scene.hpp"
 
 class SceneManager final
 {
@@ -19,26 +16,39 @@ public:
     /// @brief 毎フレーム描画
     void Draw()		  noexcept;
 
-#ifdef _DEBUG
     /// @brief 毎フレームデバッグ描画
     void Debug()	  noexcept;
-#endif
 
     /// @brief 描画後更新
     void LastUpdate() noexcept;
 
     /// @brief シーンを変更
-    void ChangeScene(const SceneTag& tag);
+    void ChangeScene(const std::string& tag);
+
+    /// @brief シーンを登録
+    template<typename TScene>
+    typename std::enable_if<std::is_base_of<Scene, TScene>::value, void>::type
+    RegisterScene(const std::string& tag) {
+        if (scenes_.find(tag) == scenes_.end()) {
+            scenes_.emplace(tag, std::make_unique<TScene>(*this));
+
+            if (scenes_.size() == 1) {
+                scenes_[tag]->Initialize();
+                current_scene_ = scenes_[tag];
+            }
+        }
+    }
 
     /// @brief 指定シーンを取得
-    std::shared_ptr<Scene> GetScene(const SceneTag& tag) const noexcept;
+    std::shared_ptr<Scene> GetScene(const std::string& tag) const noexcept;
 
 private:
     static bool  instantiated_;
 
 private:
-    std::unordered_map<SceneTag, std::shared_ptr<Scene>> scenes_;
-    std::shared_ptr<Scene>                               current_scene_;
-    std::shared_ptr<Scene>                               next_scene_;
+    std::unordered_map<std::string, std::shared_ptr<Scene>> scenes_;
+    
+    std::shared_ptr<Scene>                                  current_scene_;
+    std::shared_ptr<Scene>                                  next_scene_;
 
 };

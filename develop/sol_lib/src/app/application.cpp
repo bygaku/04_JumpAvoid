@@ -2,10 +2,14 @@
 #include "app/application.hpp"
 #include "misc/json_loader.hpp"
 
+//! ツール・ライブラリ管理
 #include "app/setting/window_config.hpp"
 #include "app/game_time.hpp"
 #include "app/input_manager.hpp"
 #include "app/scene_manager.hpp"
+#include "component/physics.hpp"
+
+//! シーン追加
 
 bool Application::instantiated_ = false;
 
@@ -32,10 +36,10 @@ bool Application::Initialize() noexcept
     if (!InitializeAdx()) return false;
 
     game_time_      = std::make_unique<GameTime>();
-    scene_manager_  = std::make_unique<SceneManager>();
     game_time_->SetFpsTarget(60);
 
     InputManager::Create();
+    Physics::Create();
 
     is_initialized_ = true;
     return true;
@@ -44,8 +48,6 @@ bool Application::Initialize() noexcept
 void Application::Terminate() noexcept
 {
     if (!is_initialized_) return;
-
-    InputManager::Destroy();
 
     if (scene_manager_) {
         scene_manager_.reset();
@@ -59,6 +61,8 @@ void Application::Terminate() noexcept
         adx_manager_.reset();
     }
 
+    InputManager::Destroy();
+    Physics::Destroy();
     JsonLoader::Destroy();
     DxLib_End();
 
@@ -79,7 +83,7 @@ void Application::Run() noexcept
     scene_manager_->Update();
     scene_manager_->Draw();
     Debug();
-    scene_manager_->LastUpdate();       /// FIXME: 呼ぶ回数を変えてもいいかも
+    scene_manager_->LastUpdate();       //! FIXME: 呼ぶ回数を変えてもいいかも
 
     game_time_->SleepForNextFrame();
     ScreenFlip();
@@ -87,10 +91,9 @@ void Application::Run() noexcept
 
 void Application::Debug() const noexcept
 {
-    printfDx("Game Update!!\n");
-    printfDx("Application boot timer: %.2f\n", game_time_->GetBootTimer());
-    InputManager::GetInstance().Debug();
+    printfDx("application: %.2f\n", game_time_->GetBootTimer());
     scene_manager_->Debug();
+    InputManager::GetInstance().Debug();
 }
 
 bool Application::InitializeDx()
@@ -148,7 +151,7 @@ bool Application::InitializeAdx()
             return false;
         }
 
-        /// @remark プレイヤーとボイスプール作成
+        //! プレイヤーとボイスプール作成
         adx_manager_->CreateVoicePool();
         adx_manager_->CreatePlayer();
 

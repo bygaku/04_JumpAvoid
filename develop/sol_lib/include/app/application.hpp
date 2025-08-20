@@ -3,10 +3,10 @@
 #include <unordered_map>
 #include <string>
 
-///< ツール・ライブラリ管理
+//! ツール・ライブラリ管理
 #include "audio/adx_manager.hpp"
 
-///< コンフィグ・マネージャ
+//! コンフィグ・マネージャ
 struct WindowConfig;
 class  GameTime;
 class  SceneManager;

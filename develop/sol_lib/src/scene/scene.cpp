@@ -1,4 +1,3 @@
-#include <DxLib.h>
 #include "misc/assert_dx.hpp"
 #include "app/game_time.hpp"
 #include "app/scene_manager.hpp"
@@ -39,7 +38,7 @@ void Scene::Finalize()
 
 void Scene::Update() noexcept
 {
-    time_ += GameTime::GetDeltaTime();
+    time_ += GameTime::GetUnscaledDeltaTime();
 
     for (auto&& obj : objects_) {
         if (!obj.second->IsActive()) {
@@ -66,20 +65,22 @@ void Scene::Draw() const noexcept
 void Scene::Debug() const noexcept
 {
 #ifdef _DEBUG
-    std::string str = "";
-    switch (tag_) {
-    case SceneTag::Title:
-        str = "TitleScene";     break;
-    case SceneTag::Stage:
-        str = "StageScene";     break;
-    case SceneTag::Result:
-        str = "ResultScene";    break;
-    }
+    std::string str = tag_;
+    
+    printfDx("%s: %.1f", str.c_str(), time_);
+    printfDx("\n");
 
-    printfDx("\n%s Time: %.1f", str.c_str(), time_);
+    static float time_scale = 1.f;
+    if (InputManager::GetInstance().IsKeyPressed(KeyCode::I)){
+        time_scale += 0.05f;
+    }
+    if (InputManager::GetInstance().IsKeyPressed(KeyCode::K) && time_scale > 0.f) {
+        time_scale -= 0.05f;
+    }
+    printfDx("time_scale : %.2f", time_scale);
     printfDx("\n");
-    printfDx("パッド接続数：%d\n", GetJoypadNum());
-    printfDx("\n");
+
+    GameTime::SetTimeScale(time_scale);
 
     for (auto&& obj : objects_) {
         auto& name = obj.second->GetName();
@@ -139,7 +140,7 @@ std::unordered_map<std::string, std::shared_ptr<GameObject>> Scene::GetDontDestr
     return dont_destroy_objects_;
 }
 
-void Scene::ChangeScene(const SceneTag& tag) noexcept
+void Scene::ChangeScene(const std::string& tag) noexcept
 {
     manager_.ChangeScene(tag);
 }
