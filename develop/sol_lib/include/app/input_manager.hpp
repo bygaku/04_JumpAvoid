@@ -1,9 +1,4 @@
 #pragma once
-#include <array>
-#include <memory>
-#include <unordered_map>
-#include <string>
-#include <optional>
 #include "setting/input_data.hpp"
 #include "misc/math/math.hpp"
 

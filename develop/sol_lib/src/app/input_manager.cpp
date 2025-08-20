@@ -1,7 +1,3 @@
-#include <DxLib.h>
-#include <algorithm>
-#include <ranges>
-#include <cmath>
 #include "misc/assert_dx.hpp"
 #include "misc/utility_dx.hpp"
 #include "app/input_manager.hpp"
@@ -278,17 +274,31 @@ void InputManager::StopPadVibration(int player_index) noexcept
 
 void InputManager::Debug(int x, int y) const noexcept
 {
-    printfDx("\n\n");
+    printfDx("\n");
     int draw_y            =  y;
     const int line_height = 20;
 
-    // マウス情報
-    printfDx("\nMouse: pos(%.1f, %.1f) Wheel(%d)",
+    //! マウス情報
+    printfDx("Mouse: pos(%.1f, %.1f) Wheel(%d)",
              mouse_position_.x_, mouse_position_.y_, mouse_wheel_delta_);
+    printfDx("\n");
+
+    //! 接続中のパッド数
+    size_t connected = 0;
+    for (int i = 0; i < 4; i++) {
+        if (!IsPadConnected(i)) {
+            break;
+        }
+
+        connected++;
+    }
+
+    printfDx("パッド接続数：%d", connected);
+    printfDx("\n");
 
     draw_y += line_height;
 
-    // ゲームパッド情報
+    //! ゲームパッド情報
     for (int i = 0; i < kMaxGamepads; ++i)
     {
         if (gamepads_[i].connected_) 
@@ -298,7 +308,7 @@ void InputManager::Debug(int x, int y) const noexcept
             float left_trigger   = GetPadLTrigger(i);
             float right_trigger  = GetPadRTrigger(i);
 
-            printfDx("\nPad[%d]: L(%.1f, %.1f) R(%.1f, %.1f) LT:(%.f) RT:(%.f)",
+            printfDx("Pad[%d]: L(%.1f, %.1f) R(%.1f, %.1f) LT:(%.f) RT:(%.f)",
                      i + 1, 
                      left_stick.x_,
                      left_stick.y_,
@@ -308,6 +318,7 @@ void InputManager::Debug(int x, int y) const noexcept
                      right_trigger);
 
             draw_y += line_height;
+            printfDx("\n");
         }
     }
 }
