@@ -5,10 +5,10 @@ namespace utility
 {
     dx_math::Vector2D_I GetCenterScreen() noexcept
     {
-        dx_math::Vector2D_I size{};
-        GetWindowSize(&size.x_, &size.y_);
+        int x, y;
+        GetWindowSize(&x, &y);
         
-        dx_math::Vector2D_I center{ size.x_ / 2, size.y_ / 2 };
+        dx_math::Vector2D_I center(x / 2, y / 2);
         return center;
     }
 }

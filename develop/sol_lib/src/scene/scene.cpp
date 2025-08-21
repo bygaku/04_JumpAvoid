@@ -67,6 +67,7 @@ void Scene::Debug() const noexcept
 #ifdef _DEBUG
     std::string str = tag_;
     
+    //! ゲーム時間 ===================================================
     printfDx("%s: %.1f", str.c_str(), time_);
     printfDx("\n");
 
@@ -78,10 +79,22 @@ void Scene::Debug() const noexcept
         time_scale -= 0.05f;
     }
     printfDx("time_scale : %.2f", time_scale);
-    printfDx("\n");
+    printfDx("\n\n");
 
     GameTime::SetTimeScale(time_scale);
 
+    //! ライト ===================================================
+    auto spot = GetLightPositionHandle(DX_LIGHTTYPE_SPOT);
+    printfDx("SPOT:		{ %.2f, %.2f, %.2f }\n", spot.x, spot.y, spot.z);
+
+    auto point = GetLightPositionHandle(DX_LIGHTTYPE_POINT);
+    printfDx("POINT:	   { %.2f, %.2f, %.2f }\n", point.x, point.y, point.z);
+
+    auto direct = GetLightPositionHandle(DX_LIGHTTYPE_DIRECTIONAL);
+    printfDx("DIRECTIONAL: { %.2f, %.2f, %.2f }\n", direct.x, direct.y, direct.z);
+    printfDx("\n");
+
+    //! 登録済みオブジェクト ===================================================
     for (auto&& obj : objects_) {
         auto& name = obj.second->GetName();
         auto& pos  = obj.second->GetTransform()->GetWorldPosition();
@@ -95,15 +108,6 @@ void Scene::Debug() const noexcept
         printfDx("%s... x: %.2f, y: %.2f, z: %.2f. \n", name.c_str(), pos.x, pos.y, pos.z);
     }
     printfDx("\n");
-
-    auto spot = GetLightPositionHandle(DX_LIGHTTYPE_SPOT);
-    printfDx("SPOT:		{ %.2f, %.2f, %.2f }\n", spot.x, spot.y, spot.z);
-
-    auto point = GetLightPositionHandle(DX_LIGHTTYPE_POINT);
-    printfDx("POINT:	   { %.2f, %.2f, %.2f }\n", point.x, point.y, point.z);
-
-    auto direct = GetLightPositionHandle(DX_LIGHTTYPE_DIRECTIONAL);
-    printfDx("DIRECTIONAL: { %.2f, %.2f, %.2f }\n", direct.x, direct.y, direct.z);
 
 #endif // DEBUG
 }
@@ -127,7 +131,14 @@ void Scene::RegisterObject(std::shared_ptr<GameObject> object, const std::string
 
 std::shared_ptr<GameObject> Scene::GetSceneObject(const std::string& name) noexcept
 {
-    return std::shared_ptr<GameObject>();
+    auto it = objects_.find(name);
+
+    if (it != objects_.end()) {
+        return it->second;
+    }
+    else {
+        return nullptr;
+    }
 }
 
 void Scene::DontDestroyOnLoad(std::shared_ptr<GameObject> object, std::string name) noexcept

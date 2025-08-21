@@ -272,17 +272,8 @@ void InputManager::StopPadVibration(int player_index) noexcept
 }
 #pragma endregion
 
-void InputManager::Debug(int x, int y) const noexcept
+void InputManager::Debug() const noexcept
 {
-    printfDx("\n");
-    int draw_y            =  y;
-    const int line_height = 20;
-
-    //! マウス情報
-    printfDx("Mouse: pos(%.1f, %.1f) Wheel(%d)",
-             mouse_position_.x_, mouse_position_.y_, mouse_wheel_delta_);
-    printfDx("\n");
-
     //! 接続中のパッド数
     size_t connected = 0;
     for (int i = 0; i < 4; i++) {
@@ -295,8 +286,6 @@ void InputManager::Debug(int x, int y) const noexcept
 
     printfDx("パッド接続数：%d", connected);
     printfDx("\n");
-
-    draw_y += line_height;
 
     //! ゲームパッド情報
     for (int i = 0; i < kMaxGamepads; ++i)
@@ -316,11 +305,16 @@ void InputManager::Debug(int x, int y) const noexcept
                      right_stick.y_,
                      left_trigger,  
                      right_trigger);
-
-            draw_y += line_height;
             printfDx("\n");
         }
     }
+
+    //! マウス情報
+    printfDx("Mouse: pos(%.1f, %.1f) Wheel(%d)", 
+              mouse_position_.x_, 
+              mouse_position_.y_,
+              mouse_wheel_delta_);
+    printfDx("\n\n");
 }
 
 #pragma region Privateメソッド

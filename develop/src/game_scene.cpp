@@ -1,9 +1,11 @@
 #include "misc/assert_dx.hpp"
+#include "app/input_manager.hpp"
 #include "game_scene.hpp"
 
 //! GameScene Object
 #include "skydome.hpp"
 #include "player.hpp"
+#include "floor.hpp"
 
 GameScene::GameScene(SceneManager& manager)
 	: Scene("game_scene", manager)
@@ -13,35 +15,47 @@ GameScene::GameScene(SceneManager& manager)
 		Scene::RegisterObject(player, "player");
 	}
 
-	auto skydome = std::make_shared<Skydome>();
-	if (skydome) {
-		Scene::RegisterObject(skydome, "skydome");
+	auto floor = std::make_shared<Floor>(VGet(0.f, -1.f, 0.f), VGet(3.5f, 1.f, 5.f));
+	if (floor) {
+		Scene::RegisterObject(floor, "floor");
 	}
 
-	//auto floor = std::make_shared<Floor>(VGet(0.f, 1.f, 0.f), VGet(5.f, 1.f, 5.f));
-	//if (floor) {
-	//	Scene::RegisterObject(floor, "floor");
-	//}
+	auto skydome = std::make_shared<Skydome>();
+	if (skydome) {
+		auto& transform = skydome->GetTransform();
+		transform->SetLocalScale(0.05f);
+		Scene::RegisterObject(skydome, "skydome");
+	}
 }
 
 void GameScene::CheckSceneState() noexcept
 {
-	//! TODO: Conditions for Change Scene.
+	auto& input = InputManager::GetInstance();
+
+	if (input.IsKeyPressed(KeyCode::Space)) {
+		Scene::ChangeScene("game_scene");
+	}
+	if (input.IsKeyPressed(KeyCode::Enter)) {
+		Scene::ChangeScene("result_scene");
+	}
 }
 
 bool GameScene::Initialize() noexcept
 {	
 	//! Easy Camera Implementation.
 	static float cam_position = 4.f;
-	/*
-	if (CheckHitKey(KEY_INPUT_UP)) {
-		cam_position++;
-	}
-	if (CheckHitKey(KEY_INPUT_DOWN)) {
-		cam_position--;
-	}
-	*/
-	SetCameraPositionAndTarget_UpVecY(VGet(0.f, cam_position, 5.f), VGet(0.f, 0.f, -5.f));
+	SetCameraPositionAndTarget_UpVecY(VGet(-10.f, cam_position, -7.f), VGet(10.f, 4.f, -7.f));
 
 	return Scene::Initialize();
+}
+
+void GameScene::Update() noexcept
+{
+	auto skydome = Scene::GetSceneObject("skydome");
+	if (skydome) {
+		auto& transform = skydome->GetTransform();
+		transform->Rotate(Quaternion::FromEulerDegrees(0.f, 0.01f, 0.f));
+	}
+
+	Scene::Update();
 }

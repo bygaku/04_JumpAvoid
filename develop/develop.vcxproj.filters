@@ -37,6 +37,15 @@
     <Filter Include="Scene\Game">
       <UniqueIdentifier>{f93ba159-42b9-40d8-8367-98389f08f234}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObject\Obstacle">
+      <UniqueIdentifier>{8e6b038a-80f3-494e-8545-fb7a59ed2586}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameObject\UI\Text">
+      <UniqueIdentifier>{a41c13aa-5614-470f-8db2-5c1df53fdf67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Result">
+      <UniqueIdentifier>{d152b800-1d80-4e0d-a47a-30f50791a604}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sol_lib\src\app\application.cpp">
@@ -122,6 +131,30 @@
     </ClCompile>
     <ClCompile Include="sol_lib\src\scene\scene.cpp">
       <Filter>SolLib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\game_scene.cpp">
+      <Filter>Scene\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\title_scene.cpp">
+      <Filter>Scene\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="src\player.cpp">
+      <Filter>GameObject\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="src\floor.cpp">
+      <Filter>GameObject\Floor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\skydome.cpp">
+      <Filter>GameObject\Skydome</Filter>
+    </ClCompile>
+    <ClCompile Include="src\button.cpp">
+      <Filter>GameObject\UI\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="src\result_scene.cpp">
+      <Filter>Scene\Result</Filter>
+    </ClCompile>
+    <ClCompile Include="src\obstacle.cpp">
+      <Filter>GameObject\Obstacle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -274,6 +307,30 @@
     </ClInclude>
     <ClInclude Include="sol_lib\include\scene\scene.hpp">
       <Filter>SolLib</Filter>
+    </ClInclude>
+    <ClInclude Include="include\game_scene.hpp">
+      <Filter>Scene\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="include\title_scene.hpp">
+      <Filter>Scene\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="include\floor.hpp">
+      <Filter>GameObject\Floor</Filter>
+    </ClInclude>
+    <ClInclude Include="include\player.hpp">
+      <Filter>GameObject\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="include\skydome.hpp">
+      <Filter>GameObject\Skydome</Filter>
+    </ClInclude>
+    <ClInclude Include="include\button.hpp">
+      <Filter>GameObject\UI\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="include\result_scene.hpp">
+      <Filter>Scene\Result</Filter>
+    </ClInclude>
+    <ClInclude Include="include\obstacle.hpp">
+      <Filter>GameObject\Obstacle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

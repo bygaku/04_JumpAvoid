@@ -23,6 +23,8 @@ void Animator::Initialize() noexcept
 {
     DetachAnimation(TimeState::kPrev);
     DetachAnimation(TimeState::kCurrent);
+    time_state_data_.at(TimeState::kPrev).info = -1;
+    time_state_data_.at(TimeState::kCurrent).info = -1;
 }
 
 void Animator::Update() noexcept

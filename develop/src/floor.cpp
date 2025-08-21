@@ -7,10 +7,8 @@ Floor::Floor(const VECTOR& position, const VECTOR& size)
     , size_(size)
     , texture_(-1)
 {
-    // タグを設定
-    tag_ = ObjectTag::Floor;
-
-    // 初期位置を設定
+    tag_   = ObjectTag::Floor;
+    model_ = std::make_shared<Modeler>(*this);
     transform_->SetLocalPosition(position);
 }
 
@@ -22,10 +20,20 @@ void Floor::Initialize() noexcept
 {
     CollidableObject::Initialize();
 
+    //! Transform
+    transform_->SetLocalScale(0.01f);
+    transform_->SetLocalRotation(Quaternion::FromEulerDegrees(0.f, 180.f, 0.f));
+
     // ボックスコライダーの設定
     auto box = std::dynamic_pointer_cast<ColliderInfoBox>(GetColliderInfo());
     if (box) {
         box->SetBox(transform_->GetLocalPosition(), size_ * 0.5);
+    }
+
+    //! Modeler
+    if (model_) {
+        model_->Initialize();
+        model_->SetModelHandle("../resources/model/simple/road.mv1");
     }
 }
 
@@ -38,8 +46,6 @@ void Floor::Update() noexcept
 {
     if (!IsActive()) return;
 
-    // 静的オブジェクトなので特に更新処理はない
-
     // ColliderのAABB更新（初回のみ）
     if (GetColliderInfo() && GetColliderInfo()->NeedsUpdate()) {
         GetColliderInfo()->UpdateAABB(
@@ -47,11 +53,14 @@ void Floor::Update() noexcept
             transform_->GetWorldMatrix()
         );
     }
+
+    model_->SetMatrix(transform_->GetLocalMatrix());
 }
 
 void Floor::Draw() const noexcept
 {
     if (!IsActive()) return;
+    model_->Draw();
 
     VECTOR pos = transform_->GetLocalPosition();
     VECTOR half_size = VScale(size_, 0.5f);

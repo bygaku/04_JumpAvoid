@@ -9,5 +9,7 @@ public:
 	/// @brief シーンの状態を確認
 	void CheckSceneState() noexcept override;
 
-	bool Initialize() noexcept override;
+	bool Initialize()	   noexcept override;
+
+	void Update()		   noexcept override;
 };

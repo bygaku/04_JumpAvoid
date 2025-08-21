@@ -1,5 +1,6 @@
 #include <DxLib.h>
 #include "app/application.hpp"
+#include "misc/data/screen_data.hpp"
 #include "misc/json_loader.hpp"
 
 //! ツール・ライブラリ管理
@@ -10,6 +11,9 @@
 #include "component/physics.hpp"
 
 //! シーン追加
+#include "title_scene.hpp"
+#include "game_scene.hpp"
+#include "result_scene.hpp"
 
 bool Application::instantiated_ = false;
 
@@ -37,6 +41,11 @@ bool Application::Initialize() noexcept
 
     game_time_      = std::make_unique<GameTime>();
     game_time_->SetFpsTarget(60);
+
+    scene_manager_ = std::make_unique<SceneManager>();
+    scene_manager_->RegisterScene<TitleScene>("title_scene");
+    scene_manager_->RegisterScene<GameScene>("game_scene");
+    scene_manager_->RegisterScene<ResultScene>("result_scene");
 
     InputManager::Create();
     Physics::Create();
@@ -80,9 +89,9 @@ void Application::Run() noexcept
     InputManager::GetInstance().Update();
     ClearDrawScreen();
 
+    Debug();
     scene_manager_->Update();
     scene_manager_->Draw();
-    Debug();
     scene_manager_->LastUpdate();       //! FIXME: 呼ぶ回数を変えてもいいかも
 
     game_time_->SleepForNextFrame();
@@ -91,9 +100,9 @@ void Application::Run() noexcept
 
 void Application::Debug() const noexcept
 {
+    InputManager::GetInstance().Debug();
     printfDx("application: %.2f\n", game_time_->GetBootTimer());
     scene_manager_->Debug();
-    InputManager::GetInstance().Debug();
 }
 
 bool Application::InitializeDx()
@@ -107,14 +116,14 @@ bool Application::InitializeDx()
         SetOutApplicationLogValidFlag(FALSE);
 #endif
         SetWindowText(config_.project_name.c_str());
-        ChangeWindowMode(!config_.is_full_screen);
-        SetGraphMode(config_.screen_width, config_.screen_height, config_.color_bit);
+        ChangeWindowMode(screen::kWindowMode);
+        SetGraphMode(screen::kWidth, screen::kHeight, screen::kColorBit);
 
-        if (config_.is_full_screen) {
-            int default_width, default_height, default_color_bit;
-            GetDefaultState(&default_width, &default_height, &default_color_bit);
-            SetWindowSize(default_width, default_height);
-        }
+        //if (config_.is_full_screen) {
+        //    int default_width, default_height, default_color_bit;
+        //    GetDefaultState(&default_width, &default_height, &default_color_bit);
+        //    SetWindowSize(default_width, default_height);
+        //}
 
         SetUseDirect3DVersion(DX_DIRECT3D_11);
         SetUseDirectInputFlag(false);
@@ -130,9 +139,9 @@ bool Application::InitializeDx()
 
         SetFogEnable(true);
         SetFogMode(DX_FOGMODE_LINEAR);
-        SetFogColor(200, 200, 200);
-        SetFogStartEnd(100.0f, 500.0f);
-        SetFogDensity(0.1f);
+        SetFogColor(255, 200, 150);
+        SetFogStartEnd(200.0f, 1000.0f);
+        SetFogDensity(0.05f);
 
         return true;
     }

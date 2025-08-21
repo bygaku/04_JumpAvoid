@@ -44,6 +44,7 @@ void Physics::Entry(CollidableObject* collidable)
     bool found = std::find(collidables_.begin(), collidables_.end(), collidable) != collidables_.end();
     if (found) {
         ASSERT(found, "the specified object is already registered.");
+        return;
     }
     
     collidables_.emplace_back(collidable);

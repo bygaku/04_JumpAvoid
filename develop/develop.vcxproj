@@ -47,8 +47,24 @@
     <ClCompile Include="sol_lib\src\misc\utility_dx.cpp" />
     <ClCompile Include="sol_lib\src\object\collidable_object.cpp" />
     <ClCompile Include="sol_lib\src\scene\scene.cpp" />
+    <ClCompile Include="src\button.cpp" />
+    <ClCompile Include="src\floor.cpp" />
+    <ClCompile Include="src\game_scene.cpp" />
+    <ClCompile Include="src\obstacle.cpp" />
+    <ClCompile Include="src\player.cpp" />
+    <ClCompile Include="src\result_scene.cpp" />
+    <ClCompile Include="src\skydome.cpp" />
+    <ClCompile Include="src\title_scene.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\button.hpp" />
+    <ClInclude Include="include\floor.hpp" />
+    <ClInclude Include="include\game_scene.hpp" />
+    <ClInclude Include="include\obstacle.hpp" />
+    <ClInclude Include="include\player.hpp" />
+    <ClInclude Include="include\result_scene.hpp" />
+    <ClInclude Include="include\skydome.hpp" />
+    <ClInclude Include="include\title_scene.hpp" />
     <ClInclude Include="sol_lib\include\app\application.hpp" />
     <ClInclude Include="sol_lib\include\app\game_time.hpp" />
     <ClInclude Include="sol_lib\include\app\input_manager.hpp" />

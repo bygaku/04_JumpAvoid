@@ -13,8 +13,6 @@ Skydome::~Skydome()
 
 void Skydome::Initialize() noexcept
 {
-    transform_->SetLocalScale(0.05f);
-
     if (model_) {
         model_->SetModelHandle("../resources/model/skydome/my_skydome.mv1");
     }

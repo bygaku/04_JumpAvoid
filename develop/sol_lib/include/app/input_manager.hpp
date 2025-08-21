@@ -20,7 +20,7 @@ public:
     static void          Destroy()	   noexcept;
 
     void Update() noexcept;
-    void Debug(int x = 10, int y = 10) const noexcept;
+    void Debug() const noexcept;
 
     /// @remark キーボード関連
     [[nodiscard]] InputState GetKeyState  (KeyCode key) const noexcept;

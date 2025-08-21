@@ -1,5 +1,6 @@
 #pragma once
 #include "object/collidable_object.hpp"
+#include "component/modeler.hpp"
 
 /// @brief 床オブジェクト（静的）
 class Floor final : public CollidableObject
@@ -30,7 +31,9 @@ public:
     void OnCollide(const CollidableObject& object) noexcept override;
 
 private:
-    VECTOR size_;       /// @brief 床のサイズ
-    int    texture_;    /// @brief テクスチャハンドル（未使用）
+    VECTOR size_;                       /// @brief 床のサイズ
+    int    texture_;                    /// @brief テクスチャハンドル
+
+    std::shared_ptr<Modeler> model_;    /// @brief モデル管理コンポーネント
 
 };
