@@ -68,11 +68,11 @@ private:
     /// @brief 座標を補正
     void FixPosition() noexcept;
 
-    /// @brief 重力を適用
-    void ApplyGravity() noexcept;
+    ///// @brief 重力を適用
+    //void ApplyGravity() noexcept;
 
-    /// @brief 摩擦を適用
-    void ApplyFriction(const std::shared_ptr<Rigidbody>& rb, float delta_time) noexcept;
+    ///// @brief 摩擦を適用
+    //void ApplyFriction(const std::shared_ptr<Rigidbody>& rb, float delta_time) noexcept;
 
 private:
     static Physics* instance_;

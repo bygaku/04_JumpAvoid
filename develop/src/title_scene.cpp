@@ -53,8 +53,6 @@ void TitleScene::CheckSceneState() noexcept
 	if (!input.IsKeyPressed(KeyCode::Space)) return;
 	if (start->IsHover()) {
 		start->OnClick();
-
-		if (change_timer_ < 3.f) return;
 		Scene::ChangeScene("game_scene");
 	}
 
@@ -131,12 +129,6 @@ void TitleScene::ButtonState() noexcept
 
 void title_button::StartButtonPressed()
 {
-	int alpha = 255;
-	for (size_t i = 255; i > 0; i--)
-	{
-		alpha = i;
-		SetDrawBright(alpha, alpha, alpha);
-	}
 }
 
 void title_button::ExitButtonPressed()

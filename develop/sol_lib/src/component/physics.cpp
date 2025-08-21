@@ -320,47 +320,47 @@ void Physics::FixPosition() noexcept
     }
 }
 
-void Physics::ApplyGravity() noexcept
-{
-}
-
-void Physics::ApplyFriction(const std::shared_ptr<Rigidbody>& rb, float delta_time) noexcept
-{
-    VECTOR velocity		 = rb->GetVelocity();
-    VECTOR ground_normal = rb->GetGroundNormal();
-
-    //! ’n–Ê‚É•½s‚È‘¬“x¬•ª‚ğŒvZ
-    auto normal_dot_velocity = VDot(velocity, ground_normal);
-    auto velocity_parallel   = velocity - (ground_normal * normal_dot_velocity);
-    auto speed				 = VSize(velocity_parallel);
-    if (speed < 0.001f) return;
-
-    //! –€C—Í‚ÌŒvZ
-    auto& material			   = rb->GetMaterial();
-    auto  friction_coefficient = material.dynamic_friction;
-
-    //! Ã–€C‚Ì”»’è
-    if (speed < 0.1f) {
-        friction_coefficient = material.static_friction;
-    }
-
-    //! –€C—Í = ƒÊ * Ni‚’¼R—Íj
-    auto normal_force   = rb->GetMass() * fabs(kGravity);
-    auto friction_force = friction_coefficient * normal_force;
-
-    //! –€C‚É‚æ‚éŒ¸‘¬
-    auto friction_direction = VNorm(velocity_parallel) * -1.f;
-    auto friction_accel     = friction_direction * (friction_force / rb->GetMass());
-
-    //! ‘¬“x‚ğXVi–€C‚ÅŠ®‘S‚É~‚Ü‚ç‚È‚¢‚æ‚¤‚É§ŒÀj
-    auto new_velocity_parallel = velocity_parallel + (friction_accel * delta_time);
-
-    //! –€C‚Å‹t•ûŒü‚É‚È‚Á‚½ê‡‚Í’â~
-    if (VDot(new_velocity_parallel, velocity_parallel) < 0) {
-        new_velocity_parallel = VGet(0.f, 0.f, 0.f);
-    }
-
-    //! ‚’¼¬•ª‚Æ‡¬‚µ‚Ä‘¬“x‚ğİ’è
-    VECTOR velocity_normal = ground_normal * normal_dot_velocity;
-    rb->SetVelocity(new_velocity_parallel + velocity_normal);
-}
+//void Physics::ApplyGravity() noexcept
+//{
+//}
+//
+//void Physics::ApplyFriction(const std::shared_ptr<Rigidbody>& rb, float delta_time) noexcept
+//{
+//    VECTOR velocity		 = rb->GetVelocity();
+//    VECTOR ground_normal = rb->GetGroundNormal();
+//
+//    //! ’n–Ê‚É•½s‚È‘¬“x¬•ª‚ğŒvZ
+//    auto normal_dot_velocity = VDot(velocity, ground_normal);
+//    auto velocity_parallel   = velocity - (ground_normal * normal_dot_velocity);
+//    auto speed				 = VSize(velocity_parallel);
+//    if (speed < 0.001f) return;
+//
+//    //! –€C—Í‚ÌŒvZ
+//    auto& material			   = rb->GetMaterial();
+//    auto  friction_coefficient = material.dynamic_friction;
+//
+//    //! Ã–€C‚Ì”»’è
+//    if (speed < 0.1f) {
+//        friction_coefficient = material.static_friction;
+//    }
+//
+//    //! –€C—Í = ƒÊ * Ni‚’¼R—Íj
+//    auto normal_force   = rb->GetMass() * fabs(kGravity);
+//    auto friction_force = friction_coefficient * normal_force;
+//
+//    //! –€C‚É‚æ‚éŒ¸‘¬
+//    auto friction_direction = VNorm(velocity_parallel) * -1.f;
+//    auto friction_accel     = friction_direction * (friction_force / rb->GetMass());
+//
+//    //! ‘¬“x‚ğXVi–€C‚ÅŠ®‘S‚É~‚Ü‚ç‚È‚¢‚æ‚¤‚É§ŒÀj
+//    auto new_velocity_parallel = velocity_parallel + (friction_accel * delta_time);
+//
+//    //! –€C‚Å‹t•ûŒü‚É‚È‚Á‚½ê‡‚Í’â~
+//    if (VDot(new_velocity_parallel, velocity_parallel) < 0) {
+//        new_velocity_parallel = VGet(0.f, 0.f, 0.f);
+//    }
+//
+//    //! ‚’¼¬•ª‚Æ‡¬‚µ‚Ä‘¬“x‚ğİ’è
+//    VECTOR velocity_normal = ground_normal * normal_dot_velocity;
+//    rb->SetVelocity(new_velocity_parallel + velocity_normal);
+//}

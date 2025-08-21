@@ -90,8 +90,8 @@ public:
 
 protected:
     Type     type_;            /// @brief 当たり判定種類
-    bool     is_trigger_;      /// @brief トリガー
     AABB     aabb_;            /// @brief バウンディングボックス
+    bool     is_trigger_;      /// @brief トリガー
     uint32_t category_;        /// @brief このコライダーのカテゴリ
     uint32_t collision_mask_;  /// @brief 衝突するカテゴリのマスク
     bool     needs_update_;    /// @brief AABBの更新が必要か

@@ -4,6 +4,7 @@
 
 //! GameScene Object
 #include "skydome.hpp"
+#include "obstacle.hpp"
 #include "player.hpp"
 #include "floor.hpp"
 
@@ -25,6 +26,11 @@ GameScene::GameScene(SceneManager& manager)
 		auto& transform = skydome->GetTransform();
 		transform->SetLocalScale(0.05f);
 		Scene::RegisterObject(skydome, "skydome");
+	}
+
+	auto obstacle = std::make_shared<Obstacle>("spike");
+	if (obstacle) {
+		Scene::RegisterObject(obstacle, "spike");
 	}
 }
 
@@ -56,6 +62,12 @@ void GameScene::Update() noexcept
 		auto& transform = skydome->GetTransform();
 		transform->Rotate(Quaternion::FromEulerDegrees(0.f, 0.01f, 0.f));
 	}
+
+	//auto obstacle = Scene::GetSceneObject("spike");
+	//if (obstacle) {
+	//	auto& transform = obstacle->GetTransform();
+	//	transform->Rotate(Quaternion::FromEulerDegrees(0.01f, 0.01f, 0.01f));
+	//}
 
 	Scene::Update();
 }

@@ -2,7 +2,6 @@
 #include "app/game_time.hpp"
 #include "app/input_manager.hpp"
 #include "player.hpp"
-#include "component/physics.hpp"
 #include "misc/collider/collider_info_capsule.hpp"
 
 Player::Player()
@@ -89,8 +88,7 @@ void Player::Update() noexcept
         transform_->GetWorldMatrix()
     );
 
-    printfDx("rigidbody_->velocity.y: %f\n", rigidbody_->GetVelocity().y);
-    printfDx("move_->velocity.y: %f\n", velocity.y);
+    printfDx("velocity.y: %f\n", rigidbody_->GetVelocity().y);
 
     //! ˆÚ“®—Ê‚ðŒˆ’è
     rigidbody_->SetVelocity(velocity);
@@ -122,12 +120,12 @@ void Player::Draw() const noexcept
     );
 
     if (rigidbody_->IsGrounded()) {
-        printfDx("Player->IsGrounded():TRUE\n");
-        printfDx("Player.is_jumping_: %d\n", is_jumping_);
+        printfDx("IsGrounded(): TRUE\n");
+        printfDx("is_jumping_: %d\n", is_jumping_);
     }
     else {
-        printfDx("Player->IsGrounded():FALSE\n");
-        printfDx("Player.is_jumping_: %d\n", is_jumping_);
+        printfDx("IsGrounded(): FALSE\n");
+        printfDx("is_jumping_: %d\n", is_jumping_);
     }
 
     std::string str_state = "";
@@ -139,7 +137,7 @@ void Player::Draw() const noexcept
     case Player::State::kJumping: str_state = "jump"; break;
     case Player::State::kFalling: str_state = "fall"; break;
     }
-    printfDx("state: %s\n\n", str_state.c_str());
+    printfDx("current state: %s\n\n", str_state.c_str());
 #endif //! ƒJƒvƒZƒ‹‚ð•`‰æ
 }
 
